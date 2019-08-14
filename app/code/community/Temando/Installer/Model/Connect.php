@@ -1,13 +1,14 @@
 <?php
-
 /**
+ * Connect
  *
+ * @package     Temando_Installer
+ * @author      Temando Magento Team <marketing@temando.com>
  */
 class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
 {
-
     protected $_config;
-    protected $_sconfig;   
+    protected $_sconfig;
     protected $_frontend;
     
     const DEFAULT_DOWNLOADER_PATH = "downloader";
@@ -48,9 +49,8 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
             }
             Mage::register('temandoinstaller_errors', $errors);
             return false;
-        } 
+        }
         return true;
-        
     }
     
     public function uninstall($module)
@@ -61,12 +61,9 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
             $cmd->setSconfig($this->_sconfig);
             $cmd->setConfigObject($this->_config);
             $cmd->setFrontendObject($this->_frontend);
-
             $package = $this->_sconfig->getPackageObject('community', $module);
             $contents = $package->getContents();
-
             $params = array('community', $module);
-
             $cmd->run('uninstall', array(), $params);
         } catch (Exception $ex) {
             Mage::register('temandoinstaller_errors', array('There was an error uninstalling'));
@@ -80,8 +77,7 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
             }
             Mage::register('temandoinstaller_errors', $errors);
             return false;
-        } 
-        
+        }
         //clean the directories
         $targetPath = rtrim($this->_config->magento_root, "\\/");
         foreach ($contents as $file) {
@@ -123,22 +119,22 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
     
     protected function initialize()
     {
-        if(!$this->_config) {
+        if (!$this->_config) {
             $this->_config = new Mage_Connect_Config();
-            $this->_config->magento_root =  Mage::getBaseDir().DIRECTORY_SEPARATOR.self::DEFAULT_DOWNLOADER_PATH . DIRECTORY_SEPARATOR.'..';
+            $this->_config->magento_root =  Mage::getBaseDir() .
+            DIRECTORY_SEPARATOR.self::DEFAULT_DOWNLOADER_PATH . DIRECTORY_SEPARATOR.'..';
         }
         
         if (!$this->_sconfig) {
             $this->_sconfig = new Mage_Connect_Singleconfig(
-                    Mage::getBaseDir() . DIRECTORY_SEPARATOR
-                    . self::DEFAULT_DOWNLOADER_PATH . DIRECTORY_SEPARATOR
-                    . self::DEFAULT_SCONFIG_FILENAME
+                Mage::getBaseDir() . DIRECTORY_SEPARATOR .
+                self::DEFAULT_DOWNLOADER_PATH . DIRECTORY_SEPARATOR .
+                self::DEFAULT_SCONFIG_FILENAME
             );
         }
         
-        if(!$this->_frontend) {
+        if (!$this->_frontend) {
             $this->_frontend = new Mage_Connect_Frontend();
         }
     }
-    
 }

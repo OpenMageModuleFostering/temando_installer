@@ -1,11 +1,13 @@
 <?php
-
 /**
+ * Installer
  *
+ * @package     Temando_Installer
+ * @author      Temando Magento Team <marketing@temando.com>
  */
 class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
 {
-    const TEMANDO_FINANCE_API = 'https://finance.temando.com/api/v1/user/subscriptions';  
+    const TEMANDO_FINANCE_API = 'https://finance.temando.com/api/v1/user/subscriptions';
     
     public function _construct()
     {
@@ -22,7 +24,7 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $request = array();
         $request['uri'] = self::TEMANDO_FINANCE_API;
         $helper = Mage::helper('temandoinstaller');
-        /* @var $helper Temando_Installer_Helper_Data */ 
+        /* @var $helper Temando_Installer_Helper_Data */
         $api = Mage::getModel('temandoinstaller/api_rest_client');
         /* @var $api Temando_Installer_Model_Api_Rest_Client */
         $versions = $helper->getVersions();
@@ -59,11 +61,11 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
      */
     public function downloadPackage($service)
     {
-        if(!isset($service->links->software_latest_release->href)) {
+        if (!isset($service->links->software_latest_release->href)) {
             return false;
         }
         $latestRelease = $this->getLatestRelease($service->links->software_latest_release->href);
-        if(!isset($latestRelease->raw_url)) {
+        if (!isset($latestRelease->raw_url)) {
             return false;
         }
         
@@ -74,7 +76,7 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $file = 'Temando_Temando.tgz';
         $fileTemp = Mage::getBaseDir() . DS . "var/" . uniqid() . $file;
         
-        if(!file_put_contents ($fileTemp, $package)) {
+        if (!file_put_contents($fileTemp, $package)) {
             //there is an error saving the file on disk
             return false;
         } else {
@@ -110,7 +112,7 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $serviceRequest = array();
         $serviceRequest['uri'] = $uri;
         $serviceResponse = $serviceApi->getService($serviceRequest);
-        if(!isset($serviceResponse->services)) {
+        if (!isset($serviceResponse->services)) {
             return;
         }
         return $serviceResponse->services;
@@ -128,7 +130,7 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $productRequest = array();
         $productRequest['uri'] = $uri;
         $productResponse = $serviceApi->getService($productRequest);
-        if(!isset($productResponse->softwares->software)) {
+        if (!isset($productResponse->softwares->software)) {
             return;
         }
         return $productResponse->softwares->software;
@@ -146,7 +148,7 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $releaseRequest = array();
         $releaseRequest['uri'] = $uri;
         $releaseResponse = $serviceApi->getService($releaseRequest);
-        if(!isset($releaseResponse->release)) {
+        if (!isset($releaseResponse->release)) {
             return;
         }
         return $releaseResponse->release;
@@ -164,7 +166,7 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $serviceRequest = array();
         $serviceRequest['uri'] = $uri;
         $serviceResponse = $serviceApi->getService($serviceRequest);
-        if(!isset($serviceResponse->services->slug)) {
+        if (!isset($serviceResponse->services->slug)) {
             return;
         }
         return $serviceResponse->services->slug;
@@ -182,7 +184,7 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $serviceRequest = array();
         $serviceRequest['uri'] = $uri;
         $serviceResponse = $serviceApi->getService($serviceRequest);
-        if(!isset($serviceResponse->services->links->software_latest_release->version)) {
+        if (!isset($serviceResponse->services->links->software_latest_release->version)) {
             return;
         }
         return $serviceResponse->services->links->software_latest_release->version;
@@ -200,10 +202,9 @@ class Temando_Installer_Model_Installer extends Mage_Core_Model_Abstract
         $serviceRequest = array();
         $serviceRequest['uri'] = $uri;
         $serviceResponse = $serviceApi->getService($serviceRequest);
-        if(!isset($serviceResponse->services->links->software_latest_release->href)) {
+        if (!isset($serviceResponse->services->links->software_latest_release->href)) {
             return;
         }
         return $serviceResponse->services->links->software_latest_release->href;
     }
-    
 }

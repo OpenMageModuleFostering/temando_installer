@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Adminhtml Notifications
+ *
+ * @package     Temando_Installer
+ * @author      Temando Magento Team <marketing@temando.com>
+ */
 class Temando_Installer_Block_Adminhtml_Notifications extends Mage_Adminhtml_Block_Template
 {
     public function getModuleNotifications()
@@ -10,5 +15,3 @@ class Temando_Installer_Block_Adminhtml_Notifications extends Mage_Adminhtml_Blo
         return $installerModules;
     }
 }
-
-

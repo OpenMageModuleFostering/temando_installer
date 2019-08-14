@@ -1,30 +1,31 @@
 <?php
-
 /**
+ * Cron
+ *
+ * @package     Temando_Installer
+ * @author      Temando Magento Team <marketing@temando.com>
+ *
  * Cron job currently for checking updates on the main Temando module
  */
 class Temando_Installer_Model_Cron extends Mage_Core_Model_Abstract
 {
-    
     protected $_helper;
     
     public function _construct()
     {
         parent::_construct();
         $this->initialize();
-
     }
     
     public function checkReleases()
     {
         $module = Temando_Installer_Helper_Data::TMD_MODULE_NAME;
-        
         $installer = Mage::getModel('temandoinstaller/installer');
         /* @var $installer Temando_Installer_Model_Installer */
         
         //check token
         $currentService = $installer->getCurrentService();
-        if(!$currentService) {
+        if (!$currentService) {
             return;
         }
         //check the latest release
@@ -38,9 +39,7 @@ class Temando_Installer_Model_Cron extends Mage_Core_Model_Abstract
         }
         
         $versionNumber = $currentService->links->software_latest_release->version;
-        
-        $updateDetails = 'Temando v' . $versionNumber . ' is available.'; 
-        
+        $updateDetails = 'Temando v' . $versionNumber . ' is available.';
         $installerModules = Mage::getModel('temandoinstaller/installer')->getCollection();
         $installerModules->addFieldToFilter('module', $module);
         $installerModules->addFieldToFilter('update_available', false);
@@ -52,15 +51,12 @@ class Temando_Installer_Model_Cron extends Mage_Core_Model_Abstract
                 ->setUpdateDetails($updateDetails)
                 ->save();
         }
-        
     }
 
     protected function initialize()
     {
-        if(!$this->_helper) {
+        if (!$this->_helper) {
             $this->_helper = Mage::helper('temandoinstaller');
         }
-        
     }
-    
 }

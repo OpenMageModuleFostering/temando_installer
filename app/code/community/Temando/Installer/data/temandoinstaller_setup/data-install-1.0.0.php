@@ -20,11 +20,12 @@ if ($helper->getTemandoVersion()) {
     $installDate = date('Y-m-d H:i:s');
     $updateDate = date('Y-m-d H:i:s');
     
-    $installer->run("
-    INSERT INTO {$this->getTable('temando_installer')} (`name`, `token`, `version`, `module`, `install_date`, `update_date`, `update_available`, `update_dismissed`, `update_details`, `status`) VALUES 
-       ('{$versionName}','Token not set','{$versionNumber}','Temando_Temando','{$installDate}','{$updateDate}',0,0,NULL,1);
-    ");
-   
+    // @codingStandardsIgnoreStart
+    $installer->run(
+       "INSERT INTO {$this->getTable('temando_installer')} (`name`, `token`, `version`, `module`, `install_date`, `update_date`, `update_available`, `update_dismissed`, `update_details`, `status`) VALUES 
+       ('{$versionName}','Token not set','{$versionNumber}','Temando_Temando','{$installDate}','{$updateDate}',0,0,NULL,1);"
+    );
+    // @codingStandardsIgnoreEnd
 }
 
 $installer->endSetup();

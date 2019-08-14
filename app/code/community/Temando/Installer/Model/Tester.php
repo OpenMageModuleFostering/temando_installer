@@ -1,18 +1,18 @@
 <?php
-
 /**
+ * Tester
  *
+ * @package     Temando_Installer
+ * @author      Temando Magento Team <marketing@temando.com>
  */
 class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
 {
-    
     protected $_helper;
     
     public function _construct()
     {
         parent::_construct();
         $this->initialize();
-
     }
     
     public function testSettings()
@@ -20,56 +20,75 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
         $tables = $this->checkTemandoSchema();
         $details = $this->testClientDetails();
 
-        if(!$tables || !$details) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('Could not complete get quotes test.'));
+        if (!$tables || !$details) {
+            Mage::getSingleton('adminhtml/session')->addError(
+                Mage::helper('temandoinstaller')->__('Could not complete get quotes test.')
+            );
         } else {
             $quotes = $this->testGetQuotes();
         }
         return;
     }
     
-    protected function testGetQuotes() {
+    protected function testGetQuotes()
+    {
         try {
-           $result = $this->_helper->loadCheapestQuote();
-            if($result) {
-               Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('temandoinstaller')->__('Cheapest quote: %s', $result->getDescription()));
+            $result = $this->_helper->loadCheapestQuote();
+            if ($result) {
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('temandoinstaller')->__('Cheapest quote: %s', $result->getDescription())
+                );
             }
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('Error connecting to the api: %s', $e->getMessage()));
+            Mage::getSingleton('adminhtml/session')->addError(
+                Mage::helper('temandoinstaller')->__('Error connecting to the api: %s', $e->getMessage())
+            );
         }
         return;
     }
     
-    public function testClientDetails() {
+    public function testClientDetails()
+    {
         $result = $this->_helper->testAccountDetails();
-        if(!$result) {
-             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('temandoinstaller')->__('API Connection successful!'));
+        if (!$result) {
+            Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('temandoinstaller')->__('API Connection successful!')
+            );
             return true;
         } else {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('Error connecting to the api: %s', $result));
+            Mage::getSingleton('adminhtml/session')->addError(
+                Mage::helper('temandoinstaller')->__('Error connecting to the api: %s', $result)
+            );
             return false;
         }
-        
     }
 
     public function checkTemandoSchema()
     {
         $tableError = 0;
-        if(!$this->checkTemandoWarehouse()) {
-            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('temandoinstaller')->__('Please add a warehouse to locations.'));
+        if (!$this->checkTemandoWarehouse()) {
+            Mage::getSingleton('adminhtml/session')->addNotice(
+                Mage::helper('temandoinstaller')->__('Please add a warehouse to locations.')
+            );
             $tableError++;
         } else {
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('temandoinstaller')->__('Warehouses: %s', $this->checkTemandoWarehouse()));
+            Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('temandoinstaller')->__('Warehouses: %s', $this->checkTemandoWarehouse())
+            );
         }
-        if(!$this->checkTemandoRule()) {
-            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('temandoinstaller')->__('Please add a rule to the rule engine.'));
+        if (!$this->checkTemandoRule()) {
+            Mage::getSingleton('adminhtml/session')->addNotice(
+                Mage::helper('temandoinstaller')->__('Please add a rule to the rule engine.')
+            );
             $tableError++;
         } else {
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('temandoinstaller')->__('Rules: %s', $this->checkTemandoRule()));
+            Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('temandoinstaller')->__('Rules: %s', $this->checkTemandoRule())
+            );
         }
-        if($tableError == 0) {
+        if ($tableError == 0) {
             return true;
-        } else { 
+        } else {
             return false;
         }
     }
@@ -96,9 +115,8 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
 
     protected function initialize()
     {
-        if(!$this->_helper) {
+        if (!$this->_helper) {
             $this->_helper = Mage::helper('temandoinstaller');
         }
     }
-    
 }
