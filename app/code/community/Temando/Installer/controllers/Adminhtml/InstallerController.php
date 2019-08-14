@@ -6,18 +6,20 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
     const ERR_NO_SOAP = 'SOAP is not enabled on this server.  Please enable SOAP to use the Temando plugin.';
     const NOTICE_NO_COMMUNITY = 'The community channel cannot be found.  Please install the community channel for Magento Connect.';
     const NOTICE_UPGRADE = 'Note: if you have any customisations relating to your Temando extension, upgrading your Temando extension will remove these. Contact your Temando representative for guidance.';
+    const NOTICE_ATTRIBUTES = 'Note: if upgrading from the Starter Extension to a Business Extension, please re-index your products.';
 
     public function indexAction()
     {
         $communityChannel = Mage::getModel('temandoinstaller/connect')->getSingleConfig()->isChannel('community');
         if (!$communityChannel) {
-            Mage::getSingleton('adminhtml/session')->addNotice(self::NOTICE_NO_COMMUNITY);
+            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('temandoinstaller')->__(self::NOTICE_NO_COMMUNITY));
         }
         if ($this->checkSoap()) {
-            Mage::getSingleton('adminhtml/session')->addError(self::ERR_NO_SOAP);
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__(self::ERR_NO_SOAP));
             return $this->getResponse()->setRedirect($this->getRequest()->getServer('HTTP_REFERER'));
         } else {
-            Mage::getSingleton('adminhtml/session')->addNotice(self::NOTICE_UPGRADE);
+            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('temandoinstaller')->__(self::NOTICE_UPGRADE));
+            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('temandoinstaller')->__(self::NOTICE_ATTRIBUTES));
             $this->loadLayout()->renderLayout();  
         }
     }
@@ -38,7 +40,7 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
         
         
         if ($helper->getTemandoVersion()) {
-            Mage::getSingleton('adminhtml/session')->addError('Temando is already installed.');
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('Temando is already installed.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -46,7 +48,7 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
         //check token
         $currentService = $installer->getCurrentService();
         if(!$currentService) {
-            Mage::getSingleton('adminhtml/session')->addError('Could not find valid subscription.');
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('Could not find valid subscription.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -61,7 +63,7 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
         $file = $installer->downloadPackage($currentService);
         
         if(!$file) {
-            Mage::getSingleton('adminhtml/session')->addError('Error downloading file.');
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('Error downloading file.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -144,7 +146,7 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
             $file = $installer->downloadPackage($currentService);
 
             if(!$file) {
-                Mage::getSingleton('adminhtml/session')->addError('Error downloading file.');
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('Error downloading file.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -152,7 +154,7 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
             $installer->load($id);
             $command = Mage::getModel('temandoinstaller/connect');
             if(!$command->uninstall($installer->getModule())) {
-                Mage::getSingleton('adminhtml/session')->addError('There was an error uninstalling the current module.');
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('temandoinstaller')->__('There was an error uninstalling the current module.'));
                 $this->_redirect('*/*/');
                 return;
             }
