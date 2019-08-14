@@ -5,6 +5,7 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
     
     const ERR_NO_SOAP = 'SOAP is not enabled on this server.  Please enable SOAP to use the Temando plugin.';
     const NOTICE_NO_COMMUNITY = 'The community channel cannot be found.  Please install the community channel for Magento Connect.';
+    const NOTICE_UPGRADE = 'Note: if you have any customisations relating to your Temando extension, upgrading your Temando extension will remove these. Contact your Temando representative for guidance.';
 
     public function indexAction()
     {
@@ -16,6 +17,7 @@ class Temando_Installer_Adminhtml_InstallerController extends Mage_Adminhtml_Con
             Mage::getSingleton('adminhtml/session')->addError(self::ERR_NO_SOAP);
             return $this->getResponse()->setRedirect($this->getRequest()->getServer('HTTP_REFERER'));
         } else {
+            Mage::getSingleton('adminhtml/session')->addNotice(self::NOTICE_UPGRADE);
             $this->loadLayout()->renderLayout();  
         }
     }

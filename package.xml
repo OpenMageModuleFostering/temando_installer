@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>Temando_Installer</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <stability>stable</stability>
     <license uri="http://opensource.org/licenses/osl-3.0.php">Open Software Licence</license>
     <channel>community</channel>
@@ -11,16 +11,14 @@
  &#xD;
 Download the installer and enter your Temando Unique Access Token when prompted. From there, the extension will install the correct version you have signed up for.&#xD;
 </description>
-    <notes>v1.0.0&#xD;
+    <notes>v1.0.1&#xD;
 Temando Installer&#xD;
 &#xD;
-- Installs Temando extension based on access token&#xD;
-- U.S. Release&#xD;
-- Includes Endicia Integration</notes>
+- Updated notices</notes>
     <authors><author><name>Temando</name><user>Temando</user><email>marketing@temando.com</email></author></authors>
-    <date>2015-01-28</date>
-    <time>23:32:38</time>
-    <contents><target name="mageetc"><dir name="modules"><file name="Temando_Installer.xml" hash="d3d9fadbc5f6837ca68375f0c3e329f3"/></dir></target><target name="magecommunity"><dir name="Temando"><dir name="Installer"><dir name="Block"><dir name="Adminhtml"><dir name="Installer"><file name="Grid.php" hash="88063f4be3c01a11083e34688faf16bf"/></dir><file name="Installer.php" hash="c75798c169cc2c4c9042bde02ea2f4f9"/><file name="Notifications.php" hash="1af33eec059097349d4481c197958d5e"/><dir name="System"><dir name="Config"><dir name="Form"><dir name="Button"><file name="Manage.php" hash="e2af14400e2da1d94d07ff9c7efbac7c"/></dir></dir></dir></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="abb479ebcb4ca5931b60fea02896223f"/></dir><dir name="Model"><dir name="Api"><dir name="Rest"><file name="Client.php" hash="b37d8ce431da79ff412d06918f5f16b8"/></dir></dir><file name="Connect.php" hash="9426422e679e06f6f87ee6ba8c2f7bab"/><file name="Cron.php" hash="354e4d6c0f2fa02a7127d86ccca68ec8"/><file name="Installer.php" hash="fa74ed6258771553a2300b4da09f42a7"/><dir name="Mysql4"><dir name="Installer"><file name="Collection.php" hash="0df36ef671e60266ae72c64011021ab0"/></dir><file name="Installer.php" hash="648c65a4b10af8b0649d1b450be8cc98"/></dir><file name="Tester.php" hash="0e420baf94cb7e4ababf56940648b420"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="InstallerController.php" hash="3e8edc957bcafd383ac5f011009a7da9"/></dir></dir><dir name="data"><dir name="temandoinstaller_setup"><file name="data-install-1.0.0.php" hash="3f06f83993f9eecb7a22e57ac807968a"/></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="b2094638aea7fe73f45176883d104985"/><file name="config.xml" hash="408e2924d7858a2de690e5e9592479f8"/><file name="system.xml" hash="f7a5b44eeeef33e720777c245d7cc2d0"/></dir><dir name="sql"><dir name="temandoinstaller_setup"><file name="mysql4-install-1.0.0.php" hash="4760a0369097a674bf0bf101100925a6"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="temandoinstaller.xml" hash="6e3b298dd6a26124246228c8b1d15c0c"/></dir><dir name="template"><dir name="temando"><dir name="installer"><file name="notifications.phtml" hash="8e850625e3698ac30c18602abbd6625a"/></dir></dir></dir></dir></dir></dir></target></contents>
+    <date>2015-03-12</date>
+    <time>04:42:37</time>
+    <contents><target name="mageetc"><dir name="modules"><file name="Temando_Installer.xml" hash="d3d9fadbc5f6837ca68375f0c3e329f3"/></dir></target><target name="magecommunity"><dir name="Temando"><dir name="Installer"><dir name="Block"><dir name="Adminhtml"><dir name="Installer"><file name="Grid.php" hash="88063f4be3c01a11083e34688faf16bf"/></dir><file name="Installer.php" hash="c75798c169cc2c4c9042bde02ea2f4f9"/><file name="Notifications.php" hash="1af33eec059097349d4481c197958d5e"/><dir name="System"><dir name="Config"><dir name="Form"><dir name="Button"><file name="Manage.php" hash="e2af14400e2da1d94d07ff9c7efbac7c"/></dir></dir></dir></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="abb479ebcb4ca5931b60fea02896223f"/></dir><dir name="Model"><dir name="Api"><dir name="Rest"><file name="Client.php" hash="b37d8ce431da79ff412d06918f5f16b8"/></dir></dir><file name="Connect.php" hash="9426422e679e06f6f87ee6ba8c2f7bab"/><file name="Cron.php" hash="354e4d6c0f2fa02a7127d86ccca68ec8"/><file name="Installer.php" hash="fa74ed6258771553a2300b4da09f42a7"/><dir name="Mysql4"><dir name="Installer"><file name="Collection.php" hash="0df36ef671e60266ae72c64011021ab0"/></dir><file name="Installer.php" hash="648c65a4b10af8b0649d1b450be8cc98"/></dir><file name="Tester.php" hash="0e420baf94cb7e4ababf56940648b420"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="InstallerController.php" hash="396c9e8b87ea7de7e5613b710019da72"/></dir></dir><dir name="data"><dir name="temandoinstaller_setup"><file name="data-install-1.0.0.php" hash="3f06f83993f9eecb7a22e57ac807968a"/></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="b2094638aea7fe73f45176883d104985"/><file name="config.xml" hash="650b3051af6f2abdf98b7694ef909a99"/><file name="system.xml" hash="f7a5b44eeeef33e720777c245d7cc2d0"/></dir><dir name="sql"><dir name="temandoinstaller_setup"><file name="mysql4-install-1.0.0.php" hash="4760a0369097a674bf0bf101100925a6"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="temandoinstaller.xml" hash="6e3b298dd6a26124246228c8b1d15c0c"/></dir><dir name="template"><dir name="temando"><dir name="installer"><file name="notifications.phtml" hash="8e850625e3698ac30c18602abbd6625a"/></dir></dir></dir></dir></dir></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.2.13</min><max>6.0.0</max></php></required></dependencies>
 </package>
