@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="notifications">
+            <block type="temandoinstaller/adminhtml_notifications" name="temando_installer_notifications" template="temando/installer/notifications.phtml"/>
+        </reference>
+    </default>
+    <temandoinstaller_adminhtml_installer_index>
+	<reference name="content">
+	    <block type="temandoinstaller/adminhtml_installer" name="temando_installer">
+		<block type="temandoinstaller/adminhtml_installer_grid" name="temando_installer_grid" />
+	    </block>
+	</reference>
+    </temandoinstaller_adminhtml_installer_index> 
+</layout>

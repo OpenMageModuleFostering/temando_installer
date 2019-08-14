@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <system>
+            <children>
+                <extensions translate="title" module="connect">
+                    <children>
+                        <return translate="title" module="connect">
+                            <title>Temando Installer Manager</title>
+                            <sort_order>998</sort_order>
+                            <action>temandoinstaller/adminhtml_installer</action>
+                        </return>
+                    </children>
+                </extensions>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <temandoinstaller>
+                                        <title>Temando Installer</title>
+                                    </temandoinstaller>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl> 
+</config> 

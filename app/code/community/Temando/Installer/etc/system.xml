@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <temandoinstaller>
+            <label>Temando Installer</label>    
+            <tab>sales</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>322</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[<div style="padding:10px;background-color:#fff;border:1px solid #ddd;margin-bottom:7px;">If you don't have a Temando account, you can <a href="https://www.temando.com/register/" target="_blank">Sign Up</a> immediately.</div>]]></comment>
+                    <fields>
+			<token>
+			    <label>Access Token</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+			</token>
+                        <manage_button translate="label">
+                            <label></label>
+                            <frontend_model>temandoinstaller/adminhtml_system_config_form_button_manage</frontend_model>
+                            <frontend_type>button</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </manage_button>
+                    </fields>
+                </general>
+            </groups>
+        </temandoinstaller>
+    </sections>
+</config>
