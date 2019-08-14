@@ -6,8 +6,10 @@
  * @author      Temando Magento Team <marketing@temando.com>
  * @method StdClass getLastResponse()
  */
+
 class Temando_Installer_Model_Api_Rest_Client
-    extends Mage_Core_Model_Abstract {
+    extends Mage_Core_Model_Abstract
+{
     
     /**
      * Auth token
@@ -40,6 +42,7 @@ class Temando_Installer_Model_Api_Rest_Client
         if (!$this->_validate($request)) {
             return false;
         }
+        
         try {
             if ($jsonDecode) {
                 $this->_client
@@ -63,21 +66,21 @@ class Temando_Installer_Model_Api_Rest_Client
                 $response = $rawBody;
             }
 
-            if ($this->_client->getLastResponse()->getStatus() == 200 && count($response)) {
-                //all good
-            } else {
+            if (!($this->_client->getLastResponse()->getStatus() == 200 && !empty($response))) {
+                //if not good, then log
                 Mage::logException(new Exception($this->_client->getLastResponse()));
                 Mage::log($this->_client->getLastRequest(), null, 'tmd-http-request.log', true);
                 Mage::log($this->_client->getLastResponse(), null, 'tmd-http-response.log', true);
             }
+            
             return $response;
-        
         } catch (Exception $e) {
             Mage::logException($e);
             if (!$this->_sandbox) {
                 Mage::log($this->_client->getLastRequest(), null, 'tmd-http-request.log', true);
                 Mage::log($this->_client->getLastResponse(), null, 'tmd-http-response.log', true);
             }
+            
             return false;
         }
     }
@@ -92,14 +95,17 @@ class Temando_Installer_Model_Api_Rest_Client
         if (!$this->_uri) {
             $this->_uri = $request['uri'];
         }
+        
         if (!$this->_uri) {
             Mage::logException(new Exception(__CLASS__.': missing request url.'));
             return false;
         }
+        
         if (!$this->_token) {
             Mage::logException(new Exception(__CLASS__.': missing authorisation token.'));
             return false;
         }
+        
         return true;
     }
     
@@ -113,9 +119,11 @@ class Temando_Installer_Model_Api_Rest_Client
         if (!$this->_client) {
             $this->_client = new Varien_Http_Client();
         }
+        
         if (!$this->_token) {
             $this->_token = Mage::helper('temandoinstaller')->getTemandoToken();
         }
+        
         return $this;
     }
 }

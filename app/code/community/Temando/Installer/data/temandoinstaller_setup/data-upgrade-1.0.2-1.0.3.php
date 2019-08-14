@@ -1,7 +1,5 @@
 <?php
 
-set_time_limit(0);
-
 $installer = $this;
 $installer->startSetup();
 
@@ -18,10 +16,13 @@ $temandoFiles = array (
 foreach ($temandoFiles as $temandoFile) {
     $directory = Mage::getModuleDir('controllers', 'Temando_Installer').DS.'Adminhtml';
     $filename = $directory.DS.$temandoFile.'.php';
+    // @codingStandardsIgnoreStart
     if (!file_exists($filename)) {
         continue;
     }
+
     @unlink($filename);
+    // @codingStandardsIgnoreEnd
 }
 
 $installer->endSetup();

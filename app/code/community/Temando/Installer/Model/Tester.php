@@ -5,6 +5,7 @@
  * @package     Temando_Installer
  * @author      Temando Magento Team <marketing@temando.com>
  */
+
 class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
 {
     protected $_helper;
@@ -27,7 +28,8 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
         } else {
             $quotes = $this->testGetQuotes();
         }
-        return;
+        
+        /** return; */
     }
     
     protected function testGetQuotes()
@@ -44,7 +46,8 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
                 Mage::helper('temandoinstaller')->__('Error connecting to the api: %s', $e->getMessage())
             );
         }
-        return;
+        
+       /** return; */
     }
     
     public function testClientDetails()
@@ -76,6 +79,7 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
                 Mage::helper('temandoinstaller')->__('Warehouses: %s', $this->checkTemandoWarehouse())
             );
         }
+        
         if (!$this->checkTemandoRule()) {
             Mage::getSingleton('adminhtml/session')->addNotice(
                 Mage::helper('temandoinstaller')->__('Please add a rule to the rule engine.')
@@ -86,6 +90,7 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
                 Mage::helper('temandoinstaller')->__('Rules: %s', $this->checkTemandoRule())
             );
         }
+        
         if ($tableError == 0) {
             return true;
         } else {
@@ -100,6 +105,7 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
         foreach ($warehouseCollection as $warehouse) {
             $warehouses++;
         }
+        
         return $warehouses;
     }
     
@@ -110,6 +116,7 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
         foreach ($ruleCollection as $rule) {
             $rules++;
         }
+        
         return $rules;
     }
 
@@ -118,5 +125,6 @@ class Temando_Installer_Model_Tester extends Mage_Core_Model_Abstract
         if (!$this->_helper) {
             $this->_helper = Mage::helper('temandoinstaller');
         }
+        
     }
 }

@@ -2,21 +2,21 @@
 <config>
     <modules>
         <Temando_Installer>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
         </Temando_Installer>
     </modules>
     <global>
         <models>
             <temandoinstaller>
                 <class>Temando_Installer_Model</class>
-                <resourceModel>temandoinstaller_mysql4</resourceModel>
+                <resourceModel>temandoinstaller_resource</resourceModel>
             </temandoinstaller>
-            <temandoinstaller_mysql4>
-                <class>Temando_Installer_Model_Mysql4</class>
+            <temandoinstaller_resource>
+                <class>Temando_Installer_Model_resource</class>
                 <entities>
                     <installer><table>temando_installer</table></installer>
                 </entities>
-            </temandoinstaller_mysql4>
+            </temandoinstaller_resource>
         </models>
         <blocks>
             <temandoinstaller>

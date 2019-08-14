@@ -5,6 +5,7 @@
  * @package     Temando_Installer
  * @author      Temando Magento Team <marketing@temando.com>
  */
+
 class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
 {
     protected $_config;
@@ -47,9 +48,11 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
             foreach ($cmd->ui()->getErrors() as $error) {
                 $errors[] = $error[1];
             }
+            
             Mage::register('temandoinstaller_errors', $errors);
             return false;
         }
+        
         return true;
     }
     
@@ -75,20 +78,22 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
             foreach ($cmd->ui()->getErrors() as $error) {
                 $errors[] = $error[1];
             }
+            
             Mage::register('temandoinstaller_errors', $errors);
             return false;
         }
+        
         //clean the directories
         $targetPath = rtrim($this->_config->magento_root, "\\/");
+        // @codingStandardsIgnoreStart
         foreach ($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
             $dest = $targetPath . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName;
             $this->removeEmptyDirectory(dirname($dest));
-
         }
+        // @codingStandardsIgnoreEnd
         return true;
-        
     }
     
     /**
@@ -109,23 +114,27 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
     protected function removeEmptyDirectory($dir)
     {
         try {
+            // @codingStandardsIgnoreStart
             if (@rmdir($dir)) {
                 $this->removeEmptyDirectory(dirname($dir));
-            }
+            }// @codingStandardsIgnoreEnd   
         } catch (Exception $ex) {
-
+            return false;
         }
     }
     
     protected function initialize()
     {
         if (!$this->_config) {
+            // @codingStandardsIgnoreStart
             $this->_config = new Mage_Connect_Config();
+            // @codingStandardsIgnoreEnd
             $this->_config->magento_root =  Mage::getBaseDir() .
             DIRECTORY_SEPARATOR.self::DEFAULT_DOWNLOADER_PATH . DIRECTORY_SEPARATOR.'..';
         }
         
         if (!$this->_sconfig) {
+            // @codingStandardsIgnoreStart
             $this->_sconfig = new Mage_Connect_Singleconfig(
                 Mage::getBaseDir() . DIRECTORY_SEPARATOR .
                 self::DEFAULT_DOWNLOADER_PATH . DIRECTORY_SEPARATOR .
@@ -136,5 +145,6 @@ class Temando_Installer_Model_Connect extends Mage_Core_Model_Abstract
         if (!$this->_frontend) {
             $this->_frontend = new Mage_Connect_Frontend();
         }
+        // @codingStandardsIgnoreEnd
     }
 }

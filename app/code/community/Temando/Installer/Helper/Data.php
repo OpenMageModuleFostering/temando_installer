@@ -5,6 +5,7 @@
  * @package     Temando_Installer
  * @author      Temando Magento Team <marketing@temando.com>
  */
+
 class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
@@ -33,23 +34,28 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
                 //anything less than 2.0.0
                 $this->_tmdVersion = self::TMD_VERSION_STARTER;
             }
+            
             if (version_compare($version, self::TMD_VERSION_PROFFESIONAL, '>=')
                 && version_compare($version, self::TMD_VERSION_BUSINESS, '<')) {
                 //equals or greater than 2.0.0 but less then 3.0.0
                 $this->_tmdVersion = self::TMD_VERSION_PROFFESIONAL;
             }
+            
             if (version_compare($version, self::TMD_VERSION_BUSINESS, '>=')
                 && version_compare($version, self::TMD_VERSION_ENTERPRISE, '<')) {
             //equals or greater than 2.0.0 but less then 3.0.0
                 $this->_tmdVersion = self::TMD_VERSION_BUSINESS;
             }
+            
             if (version_compare($version, self::TMD_VERSION_ENTERPRISE, '>=')) {
                 $this->_tmdVersion = self::TMD_VERSION_ENTERPRISE;
             }
+            
             if (!$version) {
                 $this->_tmdVersion = null;
             }
         }
+        
         return $this->_tmdVersion;
     }
     
@@ -81,6 +87,7 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
                 $versionName = 'enterprise';
                 break;
         }
+        
         return $versionName;
     }
     
@@ -142,6 +149,7 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
         } catch (Exception $e) {
             return $e->getMessage();
         }
+        
         return false;
     }
     
@@ -163,6 +171,7 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
                 );
                 break;
         }
+        
         return $api;
     }
     
@@ -182,10 +191,11 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$origin) {
             return null;
         }
-        /* @var $origin Temando_Temando_Model_Warehouse */
-        $allowed_carriers = explode(',', Mage::getStoreConfig('carriers/temando/allowed_methods'));
+        
+        /** @var $origin Temando_Temando_Model_Warehouse */
+        $allowedCarriers = explode(',', Mage::getStoreConfig('carriers/temando/allowed_methods'));
         $request = Mage::getModel('temando/api_request');
-        /* @var $request Temando_Temando_Model_Api_Request */
+        /** @var $request Temando_Temando_Model_Api_Request */
         
         switch ($this->getTemandoVersion()) {
             case self::TMD_VERSION_BUSINESS:
@@ -211,7 +221,7 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
             ->setOrigin($origin->getName())
             ->setItems($this->getTestBox())
             ->setReady()
-            ->setAllowedCarriers($allowed_carriers);
+            ->setAllowedCarriers($allowedCarriers);
 
         $quotes = $request->getQuotes()->getItems();
         return Mage::helper('temando/functions')->getCheapestQuote($quotes);
@@ -224,7 +234,7 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTestBox()
     {
         $box = Mage::getModel('temando/box');
-        /* @var $box Temando_Temando_Model_Box */
+        /** @var $box Temando_Temando_Model_Box */
         $box
             ->setComment('My Package')
             ->setQty('1')
@@ -236,8 +246,8 @@ class Temando_Installer_Helper_Data extends Mage_Core_Helper_Abstract
             ->setWeight('100')
             ->setWeightUnit(Temando_Temando_Model_System_Config_Source_Unit_Weight::GRAMS)
             ->setPackaging(Temando_Temando_Model_System_Config_Source_Shipment_Packaging::BOX);
-            //->setFragile($package['fragile'])
-            //->setArticles($package['articles']);
+            /** ->setFragile($package['fragile'])
+            ->setArticles($package['articles']); */
         return array($box);
     }
     

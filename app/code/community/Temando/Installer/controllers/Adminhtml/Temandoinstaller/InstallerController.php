@@ -5,6 +5,7 @@
  * @package     Temando_Installer
  * @author      Temando Magento Team <marketing@temando.com>
  */
+
 class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends Mage_Adminhtml_Controller_Action
 {
     // @codingStandardsIgnoreStart
@@ -14,6 +15,17 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
     const NOTICE_ATTRIBUTES = 'Note: if upgrading from the Starter Extension to a Business Extension, please re-index your products.';
     // @codingStandardsIgnoreEnd
 
+    /**
+     * Check admin permissions for this controller
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')
+            ->isAllowed('temando');
+    }
+    
     public function indexAction()
     {
         $communityChannel = Mage::getModel('temandoinstaller/connect')->getSingleConfig()->isChannel('community');
@@ -22,6 +34,7 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
                 Mage::helper('temandoinstaller')->__(self::NOTICE_NO_COMMUNITY)
             );
         }
+        
         if ($this->checkSoap()) {
             Mage::getSingleton('adminhtml/session')->addError(
                 Mage::helper('temandoinstaller')->__(self::ERR_NO_SOAP)
@@ -47,11 +60,11 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
         
     public function installAction()
     {
+        /** @var $helper Temando_Installer_Helper_Data */
         $helper = Mage::helper('temandoinstaller');
-        /* @var $helper Temando_Installer_Helper_Data */
         
+        /** @var $installer Temando_Installer_Model_Installer */
         $installer = Mage::getModel('temandoinstaller/installer');
-        /* @var $installer Temando_Installer_Model_Installer */
         
         if ($helper->getTemandoVersion()) {
             Mage::getSingleton('adminhtml/session')->addError(
@@ -70,6 +83,7 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
             $this->_redirect('*/*/');
             return;
         }
+        
         //check the latest release
         if (!isset($currentService->links->software_latest_release->version)) {
             Mage::getSingleton('adminhtml/session')->addError(
@@ -99,8 +113,8 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
                 ->setToken($helper->getTemandoToken())
                 ->setVersion($currentService->links->software_latest_release->version)
                 ->setModule(Temando_Installer_Helper_Data::TMD_MODULE_NAME)
-                ->setInstallDate(date('Y-m-d H:i:s'))
-                ->setUpdateDate(date('Y-m-d H:i:s'))
+                ->setInstallDate(Mage::getSingleton('core/date')->gmtDate())
+                ->setUpdateDate(Mage::getSingleton('core/date')->gmtDate())
                 ->setUpdateAvailable(false)
                 ->setUpdateDismissed(false)
                 ->setUpdateDetails(null)
@@ -109,7 +123,9 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
         }
         
         //delete file
+        // @codingStandardsIgnoreStart
         @unlink($file);
+        // @codingStandardsIgnoreEnd
         
         if (Mage::registry('temandoinstaller_errors')) {
             foreach (Mage::registry('temandoinstaller_errors') as $error) {
@@ -122,16 +138,16 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
         }
         
         $this->_redirect('*/*/');
-        return;
+        /** return; */
     }
     
     public function updateAction()
     {
         $helper = Mage::helper('temandoinstaller');
-        /* @var $helper Temando_Installer_Helper_Data */
+        /** @var $helper Temando_Installer_Helper_Data */
         
         $installer = Mage::getModel('temandoinstaller/installer');
-        /* @var $installer Temando_Installer_Model_Installer */
+        /** @var $installer Temando_Installer_Model_Installer */
         
         $params = $this->getRequest()->getParams();
         if (!isset($params['massaction']) || !is_array($params['massaction']) || empty($params['massaction'])) {
@@ -151,6 +167,7 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
             $this->_redirect('*/*/');
             return;
         }
+        
         //check the latest release
         if (!isset($currentService->links->software_latest_release->version)) {
             Mage::getSingleton('adminhtml/session')->addError(
@@ -159,8 +176,13 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
             $this->_redirect('*/*/');
             return;
         }
+        
         //compare the current version
-	if (version_compare($helper->getTemandoVersionNumber(), $currentService->links->software_latest_release->version) > 0) {
+        $versionCompare = version_compare(
+            $helper->getTemandoVersionNumber(),
+            $currentService->links->software_latest_release->version
+        );
+        if ($versionCompare > 0) {
             Mage::getSingleton('adminhtml/session')->addError(
                 Mage::helper('temandoinstaller')->__('Current version is greater than or equal to the latest release.')
             );
@@ -172,46 +194,7 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
         
         //at the moment only one product will be on the grid - the mass action has been added for future use
         foreach ($installerIds as $id) {
-            //check file
-            $file = $installer->downloadPackage($currentService);
-
-            if (!$file) {
-                Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('temandoinstaller')->__('Error downloading file.')
-                );
-                $this->_redirect('*/*/');
-                return;
-            }
-            
-            $installer->load($id);
-            $command = Mage::getModel('temandoinstaller/connect');
-            if (!$command->uninstall($installer->getModule())) {
-                Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('temandoinstaller')->__('There was an error uninstalling the current module.')
-                );
-                $this->_redirect('*/*/');
-                return;
-            }
-            //clean cache before installing new module
-            Mage::app()->cleanCache(array('CONFIG'));
-            if ($command->install($file)) {
-                //clean the cache after installing new module
-                Mage::app()->cleanCache(array('CONFIG'));
-                $installer
-                    ->setName('Temando')
-                    ->setToken($helper->getTemandoToken())
-                    ->setVersion($currentService->links->software_latest_release->version)
-                    ->setModule(Temando_Installer_Helper_Data::TMD_MODULE_NAME)
-                    ->setUpdateDate(date('Y-m-d H:i:s'))
-                    ->setUpdateAvailable(false)
-                    ->setUpdateDismissed(false)
-                    ->setUpdateDetails(null)
-                    ->setStatus(1)
-                    ->save();
-            }
-        
-            //delete file
-            @unlink($file);
+           $this->_installPackage($installer, $id, $currentService, $helper);
         }
                 
         if (Mage::registry('temandoinstaller_errors')) {
@@ -223,13 +206,60 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
                 Mage::helper('temandoinstaller')->__('Package successfully updated.')
             );
         }
+        
         $this->_redirect('*/*/');
     }
     
+    protected function _installPackage($installer, $installerId, $currentService, $helper)
+    {
+        //check file
+        $file = $installer->downloadPackage($currentService);
+
+        if (!$file) {
+            Mage::getSingleton('adminhtml/session')->addError(
+                Mage::helper('temandoinstaller')->__('Error downloading file.')
+            );
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        $installer->load($installerId);
+        $command = Mage::getModel('temandoinstaller/connect');
+        if (!$command->uninstall($installer->getModule())) {
+            Mage::getSingleton('adminhtml/session')->addError(
+                Mage::helper('temandoinstaller')->__('There was an error uninstalling the current module.')
+            );
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        //clean cache before installing new module
+        Mage::app()->cleanCache(array('CONFIG'));
+        if ($command->install($file)) {
+            //clean the cache after installing new module
+            Mage::app()->cleanCache(array('CONFIG'));
+            $installer
+                ->setName('Temando')
+                ->setToken($helper->getTemandoToken())
+                ->setVersion($currentService->links->software_latest_release->version)
+                ->setModule(Temando_Installer_Helper_Data::TMD_MODULE_NAME)
+                ->setUpdateDate(Mage::getSingleton('core/date')->gmtDate())
+                ->setUpdateAvailable(false)
+                ->setUpdateDismissed(false)
+                ->setUpdateDetails(null)
+                ->setStatus(1)
+                ->save();
+        }
+
+        //delete file
+        // @codingStandardsIgnoreStart
+        @unlink($file);
+        // @codingStandardsIgnoreEnd
+    }
     public function uninstallAction()
     {
         $helper = Mage::helper('temandoinstaller');
-        /* @var $helper Temando_Installer_Helper_Data */
+        /** @var $helper Temando_Installer_Helper_Data */
                 
         $params = $this->getRequest()->getParams();
         if (!isset($params['massaction']) || !is_array($params['massaction']) ||
@@ -245,11 +275,7 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
         $installerIds = $params['massaction'];
         
         foreach ($installerIds as $id) {
-            $installer = Mage::getModel('temandoinstaller/installer')->load($id);
-            $command = Mage::getModel('temandoinstaller/connect');
-            if ($command->uninstall($installer->getModule())) {
-                $installer->delete();
-            }
+            $this->_deletePackage($id);
         }
                 
         if (Mage::registry('temandoinstaller_errors')) {
@@ -264,7 +290,16 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
         
         Mage::app()->cleanCache(array('CONFIG'));
         $this->_redirect('*/*/');
-        return;
+        /** return; */
+    }
+    
+    protected function _deletePackage($installerId)
+    {
+        $installer = Mage::getModel('temandoinstaller/installer')->load($installerId);
+        $command = Mage::getModel('temandoinstaller/connect');
+        if ($command->uninstall($installer->getModule())) {
+            $installer->delete();
+        }
     }
     
     public function testConnectionSettingsAction()
@@ -275,9 +310,9 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
     
     public function dismissUpdateAction()
     {
-        $module_id = $this->getRequest()->getParam('id');
-        $module = Mage::getModel('temandoinstaller/installer')->load($module_id);
-        /* @var $module Temando_Installer_Model_Installer */
+        $moduleId = $this->getRequest()->getParam('id');
+        $module = Mage::getModel('temandoinstaller/installer')->load($moduleId);
+        /** @var $module Temando_Installer_Model_Installer */
         
         if (!$module->getId()) {
             Mage::getSingleton('adminhtml/session')->addError(
@@ -291,6 +326,7 @@ class Temando_Installer_Adminhtml_Temandoinstaller_InstallerController extends M
                 Mage::helper('temandoinstaller')->__('Temando update has been dismissed.')
             );
         }
+        
         return $this->getResponse()->setRedirect($this->getRequest()->getServer('HTTP_REFERER'));
     }
     
