@@ -8,7 +8,7 @@ class Temando_Installer_Block_Adminhtml_System_Config_Form_Button_Manage extends
                 ->createBlock('adminhtml/widget_button')
                 ->setType('button')->setClass('scalable go')
                 ->setLabel(Mage::helper('temandoinstaller')->__('Manage Temando Installation'))
-                ->setOnClick('setLocation(\'' . $this->getUrl('temandoinstaller/adminhtml_installer') .'\')')
+                ->setOnClick('setLocation(\'' . $this->getUrl('adminhtml/temandoinstaller_installer') .'\')')
                 ->setTitle(Mage::helper('temandoinstaller')->__('Manage Temando Installation'))
                 ->toHtml();
         return $html;

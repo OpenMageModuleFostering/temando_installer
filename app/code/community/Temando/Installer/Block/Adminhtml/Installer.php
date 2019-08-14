@@ -12,12 +12,12 @@ class Temando_Installer_Block_Adminhtml_Installer extends Mage_Adminhtml_Block_W
 //            $this->_addButton('connectionSettings', array(
 //                'label' => $this->__('Test Connection Settings'),
 //                'id' => 'connectionSettings',
-//                'onclick' => "window.location = '" . $this->getUrl('temandoinstaller/adminhtml_installer/testConnectionSettings') . "'",
+//                'onclick' => "window.location = '" . $this->getUrl('adminhtml/temandoinstaller_installer/testConnectionSettings') . "'",
 //                'value' => '',
 //                'class' => 'go',
 //            ));
 //        }
-        parent::__construct();	
+        parent::__construct();
         if (Mage::helper('temandoinstaller')->getTemandoVersionNumber()) {
             $this->removeButton('add');
         }

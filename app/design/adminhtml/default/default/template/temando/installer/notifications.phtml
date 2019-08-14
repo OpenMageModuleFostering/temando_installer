@@ -2,15 +2,15 @@
 
 /* @var $this Temando_Installer_Block_Adminhtml_Notifications */
 ?>
-<?php foreach ($this->getModuleNotifications() as $module): 
+<?php foreach ($this->getModuleNotifications() as $module):
     /* @var $module Temando_Installer_Model_Installer */ ?>
     <div class="notification-global notification-global-notice">
-        
+
         <span class="f-right">
-            <a href="<?php echo $this->getUrl('temandoinstaller/adminhtml_installer', array('_secure' => Mage::app()->getStore()->isCurrentlySecure())); ?>">Update</a> |
-            <a href="<?php echo $this->getUrl('temandoinstaller/adminhtml_installer/dismissUpdate', array('id' => $module->getId(), '_secure' => Mage::app()->getStore()->isCurrentlySecure())); ?>">Dismiss</a>
+            <a href="<?php echo $this->getUrl('adminhtml/temandoinstaller_installer', array('_secure' => Mage::app()->getStore()->isCurrentlySecure())); ?>">Update</a> |
+            <a href="<?php echo $this->getUrl('adminhtml/temandoinstaller_installer/dismissUpdate', array('id' => $module->getId(), '_secure' => Mage::app()->getStore()->isCurrentlySecure())); ?>">Dismiss</a>
         </span>
-    
-    <strong class="label">Temando Message:</strong> <?php echo $module->getUpdateDetails(); ?>
+
+    <strong class="label"><?php echo Mage::helper('temandoinstaller')->__('Temando Message:'); ?></strong> <?php echo $module->getUpdateDetails(); ?>
     </div>
 <?php endforeach; ?>

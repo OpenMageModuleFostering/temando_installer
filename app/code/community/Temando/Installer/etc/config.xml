@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Temando_Installer>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </Temando_Installer>
     </modules>
     <global>
@@ -52,13 +52,13 @@
     </global>
     <admin>
         <routers>
-            <temandoinstaller>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Temando_Installer</module>
-                    <frontName>temandoinstaller</frontName>
+                    <modules>
+                        <temando_installer after="Mage_Adminhtml">Temando_Installer_Adminhtml</temando_installer>
+                    </modules>
                 </args>
-            </temandoinstaller>
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>
@@ -79,7 +79,6 @@
                 </Temando_Installer>
             </modules>
         </translate>
-        
     </adminhtml>
     <crontab>
         <jobs>
