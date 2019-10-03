@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/Temando_Installer",
+    "name": "openmage-module-fostering\/temando_installer",
     "type": "magento-module",
-    "license": "Open-Software-Licence",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "The Temando installer will install the latest version of Temando\u2019s Magento Extension on your Magento site.",
     "authors": [
