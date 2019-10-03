@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Temando_Installer",
+    "name": "OpenMageModuleFostering\/Temando_Installer",
     "type": "magento-module",
     "license": "Open-Software-Licence",
     "homepage": "",
-    "description": "The Temando installer will install the latest version of Temando’s Magento Extension on your Magento site.",
+    "description": "The Temando installer will install the latest version of Temando\u2019s Magento Extension on your Magento site.",
     "authors": [
-    {
-        "name": "Temando",
-        "email": "marketing@temando.com"
-    }
-],
+        {
+            "name": "Temando",
+            "email": "marketing@temando.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
